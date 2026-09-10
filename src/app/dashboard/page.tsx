@@ -1,17 +1,42 @@
 "use client";
+
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function DashboardHome() {
+  const router = useRouter();
+  
+  // State untuk Keamanan (Satpam)
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
   const [stats, setStats] = useState({
     client: 0,
     news: 0,
-    crm: 0,
+    crm: 0, // Typo diperbaiki (sebelumnya "0,)
     inbox: 0
   });
   const [loading, setLoading] = useState(true);
 
-  // Mengambil angka statistik secara real-time
+  // 🛡️ EFEK 1: Pengecekan Keamanan (Satpam)
   useEffect(() => {
+    // Cek apakah ada token/sesi login di browser
+    // Catatan: Ganti "token" jika Anda menggunakan nama key lain saat proses login sukses
+    const token = localStorage.getItem("token") || localStorage.getItem("token_login") || localStorage.getItem("user");
+
+    if (!token) {
+      // Jika TIDAK ADA KUNCI -> Tendang paksa ke beranda
+      router.replace("/");
+    } else {
+      // Jika ADA KUNCI -> Izinkan masuk
+      setIsAuthorized(true);
+    }
+  }, [router]);
+
+  // 📊 EFEK 2: Mengambil angka statistik secara real-time
+  useEffect(() => {
+    // Jangan ambil data dari API kalau belum diizinkan masuk
+    if (!isAuthorized) return;
+
     const fetchStats = async () => {
       try {
         const res = await fetch("/api/dashboard");
@@ -26,8 +51,23 @@ export default function DashboardHome() {
       }
     };
     fetchStats();
-  }, []);
+  }, [isAuthorized]); // Akan berjalan setelah satpam memberi izin (isAuthorized = true)
 
+  // 🚧 LAYAR LOADING KEAMANAN 
+  // Mencegah tampilan dashboard bocor sepersekian detik sebelum dicek
+  if (!isAuthorized) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center w-full rounded-3xl">
+        <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+        <p className="text-slate-400 font-medium tracking-wide">Memverifikasi akses keamanan...</p>
+      </div>
+    );
+  }
+
+  // ==========================================
+  // 👇 KODE TAMPILAN DASHBOARD ANDA 👇
+  // ==========================================
+  
   // Konfigurasi Kartu dengan Gradien Premium
   const statCards = [
     { 
