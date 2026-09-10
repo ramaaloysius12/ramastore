@@ -1,0 +1,33 @@
+name: Next.js CI Pipeline
+
+# Trigger action ini setiap kali ada push atau pull request ke branch 'main'
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: ⚙️ Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18' # Standar stabil untuk Next.js
+
+    - name: 📦 Install Dependencies
+      run: npm install
+
+    - name: 🗄️ Generate Prisma Client
+      run: npx prisma generate
+
+    - name: 🏗️ Build Next.js App
+      run: npm run build
+      
+    - name: ✅ Status Sukses
+      run: echo "Build sukses! Sistem Anda bebas dari error."
