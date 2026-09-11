@@ -8,10 +8,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const pathname = usePathname();
   const router = useRouter();
 
-  const handleLogout = () => {
-    // Nanti kita buat logika hapus cookie di sini
-    router.push("/login");
+     const handleLogout = () => {
+    // 1. Hapus Kunci dari LocalStorage (Satpam Halaman)
+    localStorage.removeItem("token_login");
+    localStorage.removeItem("token");
+    localStorage.clear(); // Bersihkan semua sisa
+    
+    // 2. HAPUS KUNCI DARI COOKIE (Satpam Middleware) 👈 INI KUNCI UTAMANYA
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    
+    // 3. Tendang kembali ke Home (Hard Redirect)
+    window.location.href = "/";
   };
+
 
   const menus = [
     { name: "Dashboard", path: "/dashboard", icon: "📊" },

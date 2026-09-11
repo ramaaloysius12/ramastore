@@ -1,13 +1,11 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,7 +22,14 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (data.success) {
-        router.push("/dashboard");
+        // 1. SIMPAN KUNCI UNTUK SATPAM DASHBOARD (CLIENT)
+        localStorage.setItem("token_login", data.token || "aktif");
+        
+        // 2. SIMPAN KUNCI UNTUK SATPAM MIDDLEWARE (SERVER)
+        document.cookie = `token=${data.token || "aktif"}; path=/; max-age=86400`;
+        
+        // 3. PINDAH HALAMAN
+        window.location.href = "/dashboard";
       } else {
         setError(data.error);
       }
@@ -37,15 +42,13 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 p-4 sm:p-6 lg:p-8">
-      {/* Card Container */}
       <div className="flex w-full max-w-4xl flex-col overflow-hidden rounded-3xl bg-white shadow-2xl md:flex-row">
         
-        {/* Sisi Kiri: Branding Perusahaan (Biru) */}
         <div className="relative flex w-full flex-col justify-center bg-blue-700 p-10 text-white md:w-1/2 lg:p-14">
           <div className="absolute inset-0 bg-gradient-to-b from-blue-600 to-blue-900 opacity-90"></div>
           <div className="relative z-10">
             <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm">
-              <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+              <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
@@ -56,12 +59,10 @@ export default function LoginPage() {
               Secure Administration Portal. Kelola layanan cloud, web development, dan data klien Anda dari satu pusat kendali.
             </p>
           </div>
-          {/* Ornamen Lingkaran Dekoratif */}
           <div className="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-blue-500/30 blur-3xl"></div>
           <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-blue-400/20 blur-3xl"></div>
         </div>
 
-        {/* Sisi Kanan: Form Login */}
         <div className="w-full p-8 md:w-1/2 lg:p-14">
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900">Selamat Datang</h2>
@@ -109,7 +110,7 @@ export default function LoginPage() {
             >
               {loading ? (
                 <span className="flex items-center gap-2">
-                  <svg className="h-4 w-4 animate-spin text-white" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24">
+                  <svg className="h-4 w-4 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
