@@ -44,7 +44,7 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }} # 👈 Pastikan Secret ini benar-benar ada di GitHub
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: .next/standalone/
-        server-dir: /
+        server-dir: public_html/
         dangerous-clean-slate: false
 
     - name: ✅ Status Sukses
