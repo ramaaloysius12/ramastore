@@ -41,9 +41,9 @@ jobs:
         zip -r ../../upload_package/deploy.zip .
         cd ../..
 
-       - name: 🚀 Upload 1 File ZIP ke cPanel via FTPS
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
+     - name: 🚀 Upload 1 File ZIP ke cPanel via FTPS
+       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+       with:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
