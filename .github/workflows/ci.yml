@@ -17,19 +17,19 @@ jobs:
     - name: ⚙️ Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '24' # 👈 Sudah diupdate ke versi 24 agar tidak error
+        node-version: '24'
 
     - name: 📦 Install Dependencies
       run: npm install
 
     - name: 🗄️ Generate Prisma Client
       env:
-        DATABASE_URL: ${{ secrets.DATABASE_URL }} # 👈 Menyuntikkan Supabase dari brankas
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
       run: npx prisma generate
 
     - name: 🏗️ Build Next.js App
       env:
-        DATABASE_URL: ${{ secrets.DATABASE_URL }} # 👈 Menyuntikkan Supabase dari brankas
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
       run: npm run build
 
     - name: 📂 Siapkan Folder Standalone & Buat ZIP
@@ -41,18 +41,17 @@ jobs:
         zip -r ../../upload_package/deploy.zip .
         cd ../..
 
-     - name: 🚀 Upload 1 File ZIP ke cPanel via FTPS
-       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-       with:
+    - name: 🚀 Upload 1 File ZIP ke cPanel via FTPS
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        protocol: ftps # 👈 Menggunakan FTPS (FTP over SSL) yang aman dan stabil
+        protocol: ftps
         local-dir: upload_package/
         server-dir: public_html/
         dangerous-clean-slate: false
         timeout: 60000
-
 
     - name: ✅ Status Sukses
       run: echo "Build & Upload ZIP sukses! Silakan extract file deploy.zip langsung di File Manager cPanel."
