@@ -46,6 +46,7 @@ jobs:
         local-dir: .next/standalone/
         server-dir: public_html/
         dangerous-clean-slate: false
+        timeout: 30000
 
     - name: ✅ Status Sukses
       run: echo "Build & Deploy sukses! Sistem Anda online di cPanel."
