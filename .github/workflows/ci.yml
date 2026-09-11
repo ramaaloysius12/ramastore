@@ -41,17 +41,12 @@ jobs:
         zip -r ../../upload_package/deploy.zip .
         cd ../..
 
-    - name: 🚀 Upload 1 File ZIP ke cPanel via FTPS
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        protocol: ftps
-        local-dir: upload_package/
-        server-dir: public_html/
-        dangerous-clean-slate: false
-        timeout: 60000
+    - name: 🚀 Upload ZIP via Curl (IPv4 & FTPS)
+      run: |
+        curl --ipv4 --ssl --ftp-create-dirs \
+          -u "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" \
+          -T upload_package/deploy.zip \
+          ftp://${{ secrets.FTP_SERVER }}/public_html/deploy.zip
 
     - name: ✅ Status Sukses
       run: echo "Build & Upload ZIP sukses! Silakan extract file deploy.zip langsung di File Manager cPanel."
