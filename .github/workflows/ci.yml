@@ -41,16 +41,19 @@ jobs:
         zip -r ../../upload_package/deploy.zip .
         cd ../..
 
-    - name: 🚀 Upload 1 File ZIP ke cPanel via FTP
+    - name: 🚀 Upload 1 File ZIP ke cPanel via SFTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }} # 👈 Pastikan Secret ini benar-benar ada di GitHub
+        username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
+        protocol: sftp # 👈 Mengubah protokol ke SFTP agar jauh lebih stabil
+        port: 22       # 👈 Menggunakan port standar SFTP/SSH cPanel
         local-dir: upload_package/
         server-dir: public_html/
         dangerous-clean-slate: false
-        timeout: 30000
+        timeout: 60000
+
 
     - name: ✅ Status Sukses
       run: echo "Build & Upload ZIP sukses! Silakan extract file deploy.zip langsung di File Manager cPanel."
