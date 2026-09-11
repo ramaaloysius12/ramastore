@@ -41,9 +41,9 @@ jobs:
         zip -r ../../upload_package/deploy.zip .
         cd ../..
 
-    - name: 🚀 Upload ZIP via Curl (IPv4 & FTPS)
+    - name: 🚀 Upload ZIP via Curl (Bypass SSL & IPv4)
       run: |
-        curl --ipv4 --ssl --ftp-create-dirs \
+        curl --ipv4 --ssl-reqd --insecure --ftp-create-dirs \
           -u "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" \
           -T upload_package/deploy.zip \
           ftp://${{ secrets.FTP_SERVER }}/public_html/deploy.zip
