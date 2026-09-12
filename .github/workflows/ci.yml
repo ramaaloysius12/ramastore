@@ -17,36 +17,36 @@ jobs:
     - name: ⚙️ Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '24'
+        node-version: '24' 
 
     - name: 📦 Install Dependencies
       run: npm install
 
     - name: 🗄️ Generate Prisma Client
       env:
-        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        DATABASE_URL: ${{ secrets.DATABASE_URL }} 
       run: npx prisma generate
 
     - name: 🏗️ Build Next.js App
       env:
-        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        DATABASE_URL: ${{ secrets.DATABASE_URL }} 
       run: npm run build
 
-    - name: 📂 Siapkan Folder Standalone & Buat ZIP
-      run: |
-        cp -r public .next/standalone/ || true
-        cp -r .next/static .next/standalone/.next/
-        mkdir -p upload_package
-        cd .next/standalone
-        zip -r ../../upload_package/deploy.zip .
-        cd ../..
-
-    - name: 🚀 Upload ZIP via Curl (Bypass SSL & IPv4)
-      run: |
-        curl --ipv4 --ssl-reqd --insecure --ftp-create-dirs \
-          -u "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" \
-          -T upload_package/deploy.zip \
-          ftp://${{ secrets.FTP_SERVER }}/public_html/deploy.zip
+    - name: 🚀 Deploy FULL PROJECT ke cPanel via FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }} 
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./ # 👈 Ini kuncinya! Mengirim SEMUA folder dan file dari root project
+        server-dir: public_html/
+        dangerous-clean-slate: false
+        timeout: 600000 # 👈 Waktu tunggu diperpanjang jadi 10 menit agar aman
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/node_modules/**
+          **/.next/cache/**
 
     - name: ✅ Status Sukses
-      run: echo "Build & Upload ZIP sukses! Silakan extract file deploy.zip langsung di File Manager cPanel."
+      run: echo "Build & Deploy sukses! Semua folder telah masuk ke cPanel."
