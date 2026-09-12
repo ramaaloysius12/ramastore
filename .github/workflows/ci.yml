@@ -32,21 +32,23 @@ jobs:
         DATABASE_URL: ${{ secrets.DATABASE_URL }} 
       run: npm run build
 
-    - name: 🚀 Deploy FULL PROJECT ke cPanel (Folder Rama store)
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }} 
-        password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./ 
-        server-dir: "Rama store/" # 👈 Semua file akan otomatis dimasukkan ke dalam folder ini
-        dangerous-clean-slate: false
-        timeout: 600000 
-        exclude: |
-          **/.git*
-          **/.git*/**
-          **/node_modules/**
-          **/.next/cache/**
+    - name: 📦 Buat ZIP Full Project (Semua Folder)
+      run: |
+        mkdir -p upload_package
+        # Membungkus SEMUA file project menjadi 1 file ZIP
+        zip -r upload_package/deploy.zip . \
+          -x "*.git*" \
+          -x "*node_modules*" \
+          -x "*.next/cache*" \
+          -x "upload_package*"
+
+    - name: 🚀 Upload ZIP ke Folder Rama_store via Curl (Anti Error)
+      run: |
+        # Mengirim 1 file ZIP langsung ke dalam folder Rama_store
+        curl --ipv4 --ssl-reqd --insecure --ftp-create-dirs \
+          -u "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" \
+          -T upload_package/deploy.zip \
+          ftp://${{ secrets.FTP_SERVER }}/Rama_store/deploy.zip
 
     - name: ✅ Status Sukses
-      run: echo "Build & Deploy sukses! Semua file project kini tersusun rapi di dalam folder 'Rama store' di cPanel."
+      run: echo "File deploy.zip sukses di-upload! Silakan Extract di File Manager cPanel."
