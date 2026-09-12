@@ -32,16 +32,16 @@ jobs:
         DATABASE_URL: ${{ secrets.DATABASE_URL }} 
       run: npm run build
 
-    - name: 🚀 Deploy FULL PROJECT ke cPanel via FTP
+    - name: 🚀 Deploy FULL PROJECT ke cPanel (Folder Rama store)
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }} 
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./ # 👈 Ini kuncinya! Mengirim SEMUA folder dan file dari root project
-        server-dir: public_html/
+        local-dir: ./ 
+        server-dir: "Rama store/" # 👈 Semua file akan otomatis dimasukkan ke dalam folder ini
         dangerous-clean-slate: false
-        timeout: 600000 # 👈 Waktu tunggu diperpanjang jadi 10 menit agar aman
+        timeout: 600000 
         exclude: |
           **/.git*
           **/.git*/**
@@ -49,4 +49,4 @@ jobs:
           **/.next/cache/**
 
     - name: ✅ Status Sukses
-      run: echo "Build & Deploy sukses! Semua folder telah masuk ke cPanel."
+      run: echo "Build & Deploy sukses! Semua file project kini tersusun rapi di dalam folder 'Rama store' di cPanel."
