@@ -1,4 +1,4 @@
-limport Link from "next/link";
+import Link from "next/link";
 
 // 1. Tambahkan 'async' dan ubah tipe params menjadi 'Promise'
 export default async function PublicNewsDetailPage({ params }: { params: Promise<{ id: string }> }) {
