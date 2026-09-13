@@ -9,7 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { 
   Menu, X, ArrowRight, CheckCircle2, 
-  Cloud, Terminal, LayoutTemplate, ShieldCheck, Play, Megaphone 
+  Terminal, LayoutTemplate, ShieldCheck, Play, Megaphone,
+  Rocket, Zap, MessageCircle
 } from "lucide-react";
 
 interface FadeInProps {
@@ -39,7 +40,7 @@ const FadeIn = ({ children, delay = 0, direction = "up" }: FadeInProps) => {
 };
 
 // ==========================================
-// NAVBAR DENGAN SIDEBAR MENU (BARU)
+// NAVBAR DENGAN SIDEBAR MENU
 // ==========================================
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -54,6 +55,7 @@ const Navbar = () => {
   const navLinks = [
     { name: "Layanan", href: "/layanan" },
     { name: "Keunggulan", href: "#features" },
+    { name: "Harga", href: "#pricing" },
     { name: "Kontak", href: "#contact" },
   ];
 
@@ -139,16 +141,13 @@ const Navbar = () => {
 const HeroVideoBanner = () => {
   return (
     <section className="relative w-full min-h-[60vh] flex items-center justify-center overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-32">
-      {/* Background Video */}
       <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover z-0">
         <source src="video/banner-bg.mp4" type="video/mp4" />
       </video>
       
-      {/* Overlays */}
       <div className="absolute inset-0 bg-black/60 z-10"></div>
       <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent z-10"></div>
       
-      {/* Konten Hero Teks (Dibuang margin top-nya agar lebih pas di tengah) */}
       <div className="relative z-20 container mx-auto px-4 md:px-8 flex flex-col items-center text-center">
         <FadeIn direction="up" delay={0.1}>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-blue-300 text-sm font-medium mb-6 backdrop-blur-md">
@@ -177,7 +176,7 @@ const HeroVideoBanner = () => {
             <a href="#contact" className="inline-flex items-center justify-center h-14 px-8 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition shadow-lg shadow-blue-600/30 w-full sm:w-auto">
               HUBUNGI KAMI<ArrowRight className="ml-2 h-5 w-5" />
             </a>
-            <a href="#/layanan" className="inline-flex items-center justify-center h-14 px-8 bg-transparent text-white border border-white/30 rounded-md font-medium hover:bg-white/10 transition backdrop-blur-sm w-full sm:w-auto">
+            <a href="/layanan" className="inline-flex items-center justify-center h-14 px-8 bg-transparent text-white border border-white/30 rounded-md font-medium hover:bg-white/10 transition backdrop-blur-sm w-full sm:w-auto">
               LAYANAN<Play className="ml-2 h-4 w-4" />
             </a>
           </div>
@@ -192,68 +191,56 @@ const HeroVideoBanner = () => {
   );
 };
 
-
-const ClientStats = () => {
+// ==========================================
+// KENAPA MEMILIH RAMA DEV
+// ==========================================
+const WhyChooseUs = () => {
   return (
-    <section className="py-20 bg-gray-900 border-t border-gray-800">
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-2">
-            <FadeIn direction="up" delay={0.1}>
-              <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-8 flex flex-col justify-center min-h-[220px] border border-blue-500 relative overflow-hidden group">
-                <div className="relative z-10">
-                  <div className="flex items-center gap-6 mb-4">
-                    <h3 className="text-6xl md:text-7xl font-extrabold text-white">85+</h3>
-                    <div className="text-blue-100 text-sm md:text-base font-medium leading-tight">Klien<br/>Korporat &<br/>Startup</div>
-                  </div>
-                  <p className="text-blue-100/80 text-sm md:text-base">Telah mempercayakan transformasi digital, arsitektur cloud, dan keamanan infrastruktur mereka kepada kami.</p>
+    <section id="features" className="py-20 bg-gray-900 border-t border-gray-800">
+      <div className="container mx-auto px-4 md:px-8 max-w-5xl">
+        <FadeIn direction="up" delay={0.1}>
+          <div className="bg-gradient-to-br from-blue-600 to-blue-900 rounded-3xl p-8 md:p-14 flex flex-col justify-center items-center text-center border border-blue-500 relative overflow-hidden group">
+            <div className="relative z-10">
+              <h3 className="text-3xl md:text-5xl font-extrabold text-white mb-6 tracking-tight">
+                Kenapa Memilih <span className="text-blue-300">Rama Dev?</span>
+              </h3>
+              <p className="text-blue-100/90 text-sm md:text-lg leading-relaxed mb-10 max-w-3xl mx-auto">
+                Kami paham bahwa setiap bisnis memiliki keunikan tersendiri. Di Rama Dev, kami menggabungkan keahlian teknis dengan kreativitas tanpa batas untuk menciptakan website yang responsif, cepat, dan aman. Bersama kami, proses go-digital menjadi lebih mudah, transparan, dan terukur untuk melejitkan bisnis Anda ke level berikutnya.
+              </p>
+              
+              <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+                <div className="flex items-center gap-2 bg-white/10 px-4 md:px-6 py-2.5 rounded-full border border-white/20 backdrop-blur-sm hover:bg-white/20 transition-colors">
+                  <Rocket className="w-4 h-4 md:w-5 md:h-5 text-yellow-400" />
+                  <span className="text-xs md:text-sm font-bold text-white tracking-wide">INOVASI TERDEPAN</span>
                 </div>
-                <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-all duration-500"></div>
-              </div>
-            </FadeIn>
-          </div>
-          <div className="lg:col-span-1">
-            <FadeIn direction="up" delay={0.2}>
-              <div className="bg-gray-800 rounded-3xl p-8 border border-gray-700 min-h-[220px] flex flex-col justify-between hover:border-blue-500/50 transition-colors">
-                <div>
-                  <div className="flex text-yellow-400 mb-4 gap-1">
-                     {[...Array(5)].map((_, i) => <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>)}
-                  </div>
-                  <p className="text-gray-300 text-sm mb-6">"Migrasi sangat mulus. Tim bekerja cepat dan hasil websitenya sangat memuaskan."</p>
+                <div className="flex items-center gap-2 bg-white/10 px-4 md:px-6 py-2.5 rounded-full border border-white/20 backdrop-blur-sm hover:bg-white/20 transition-colors">
+                  <ShieldCheck className="w-4 h-4 md:w-5 md:h-5 text-green-400" />
+                  <span className="text-xs md:text-sm font-bold text-white tracking-wide">KEAMANAN EKSTRA</span>
                 </div>
-                <div>
-                  <p className="text-white font-bold text-sm">TechCorp Jabar</p>
-                  <p className="text-gray-500 text-xs">Bandung, Indonesia</p>
+                <div className="flex items-center gap-2 bg-white/10 px-4 md:px-6 py-2.5 rounded-full border border-white/20 backdrop-blur-sm hover:bg-white/20 transition-colors">
+                  <Zap className="w-4 h-4 md:w-5 md:h-5 text-orange-400" />
+                  <span className="text-xs md:text-sm font-bold text-white tracking-wide">PERFORMA MAKSIMAL</span>
                 </div>
               </div>
-            </FadeIn>
+            </div>
+            
+            <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl group-hover:bg-blue-400/30 transition-all duration-700"></div>
+            <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl group-hover:bg-indigo-500/30 transition-all duration-700"></div>
           </div>
-          <div className="lg:col-span-1">
-            <FadeIn direction="up" delay={0.3}>
-              <div className="bg-gray-800 rounded-3xl p-8 border border-gray-700 min-h-[220px] flex flex-col justify-between hover:border-blue-500/50 transition-colors">
-                <div>
-                  <div className="flex text-yellow-400 mb-4 gap-1">
-                     {[...Array(5)].map((_, i) => <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>)}
-                  </div>
-                  <p className="text-gray-300 text-sm mb-6">"Web apps kami load 3x lebih cepat berkat optimasi stack Next.js."</p>
-                </div>
-                <div>
-                  <p className="text-white font-bold text-sm">Fintech Nusantara</p>
-                  <p className="text-gray-500 text-xs">Tasikmalaya, Indonesia</p>
-                </div>
-              </div>
-            </FadeIn>
-          </div>
-        </div>
+        </FadeIn>
       </div>
     </section>
   );
 };
 
+// ==========================================
+// SECTION LAYANAN
+// ==========================================
 const Services = () => {
   return (
-    <section id="services" className="py-24 bg-gray-900 text-white">
-      <div className="container mx-auto px-4 md:px-8">
+    <section id="services" className="py-24 bg-gray-900 text-white border-t border-gray-800">
+      {/* max-w-7xl ditambahkan di sini agar layout desktop tidak kelebaran */}
+      <div className="container mx-auto px-4 md:px-8 max-w-7xl">
         <FadeIn direction="up">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Solusi Digital Komprehensif</h2>
@@ -261,51 +248,175 @@ const Services = () => {
           </div>
         </FadeIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[250px]">
-          {/* Card 1: Web Dev (Besar) */}
+        {/* Grid ini dirancang khusus bergaya bento-box. Sangat responsif di Mobile, Tablet, maupun Desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           <FadeIn direction="up" delay={0.1}>
-            <div className="col-span-1 md:col-span-2 bg-gray-800 rounded-3xl p-8 border border-gray-700 hover:border-blue-500/50 transition-colors h-full flex flex-col justify-between group">
-              <LayoutTemplate className="w-10 h-10 text-blue-400 mb-4 group-hover:scale-110 transition-transform" />
+            <div className="col-span-1 md:col-span-2 bg-gray-800 rounded-3xl p-8 xl:p-10 border border-gray-700 hover:border-blue-500/50 transition-colors h-full min-h-[280px] flex flex-col justify-between group">
+              <LayoutTemplate className="w-12 h-12 text-blue-400 mb-6 group-hover:scale-110 transition-transform" />
               <div>
-                <h3 className="text-xl font-bold mb-2">Web Development & UI/UX</h3>
-                <p className="text-gray-400">Pembuatan website responsif, landing page, dan sistem informasi berkinerja tinggi menggunakan teknologi Next.js dan database modern.</p>
+                <h3 className="text-2xl font-bold mb-3">Web Development & UI/UX</h3>
+                <p className="text-gray-400 text-sm md:text-base leading-relaxed">Pembuatan website responsif, landing page, dan sistem informasi berkinerja tinggi menggunakan teknologi Next.js dan database modern.</p>
               </div>
             </div>
           </FadeIn>
 
-          {/* Card 2: Digital Marketing (Kecil Biru) */}
           <FadeIn direction="up" delay={0.2}>
-            <div className="col-span-1 bg-blue-600 rounded-3xl p-8 h-full flex flex-col justify-between hover:bg-blue-700 transition-colors group">
-              <Megaphone className="w-10 h-10 text-blue-200 mb-4 group-hover:rotate-12 transition-transform" />
+            <div className="col-span-1 bg-blue-600 rounded-3xl p-8 xl:p-10 h-full min-h-[280px] flex flex-col justify-between hover:bg-blue-700 transition-colors group">
+              <Megaphone className="w-12 h-12 text-blue-200 mb-6 group-hover:rotate-12 transition-transform" />
               <div>
-                <h3 className="text-xl font-bold mb-2">Digital Marketing</h3>
-                <p className="text-blue-100 text-sm">Manajemen sosial media, strategi kampanye digital, dan optimasi SEO untuk meningkatkan visibilitas merek Anda.</p>
+                <h3 className="text-2xl font-bold mb-3">Digital Marketing</h3>
+                <p className="text-blue-100 text-sm md:text-base leading-relaxed">Manajemen sosial media, strategi kampanye digital, dan optimasi SEO untuk meningkatkan visibilitas merek Anda.</p>
               </div>
             </div>
           </FadeIn>
 
-          {/* Card 3: Maintenance (Kecil Gelap) */}
           <FadeIn direction="up" delay={0.3}>
-            <div className="col-span-1 bg-gray-800 rounded-3xl p-8 border border-gray-700 hover:border-blue-500/50 transition-colors h-full flex flex-col justify-between group">
-              <Terminal className="w-10 h-10 text-blue-400 mb-4 group-hover:-translate-y-1 transition-transform" />
+            <div className="col-span-1 bg-gray-800 rounded-3xl p-8 xl:p-10 border border-gray-700 hover:border-blue-500/50 transition-colors h-full min-h-[280px] flex flex-col justify-between group">
+              <Terminal className="w-12 h-12 text-blue-400 mb-6 group-hover:-translate-y-1 transition-transform" />
               <div>
-                <h3 className="text-xl font-bold mb-2">Maintenance & Integrasi</h3>
-                <p className="text-gray-400 text-sm">Dukungan teknis, perbaikan berkelanjutan, dan integrasi API agar sistem digital Anda tetap berjalan lancar tanpa hambatan.</p>
+                <h3 className="text-2xl font-bold mb-3">Maintenance & Integrasi</h3>
+                <p className="text-gray-400 text-sm md:text-base leading-relaxed">Dukungan teknis, perbaikan berkelanjutan, dan integrasi API agar sistem digital Anda tetap berjalan lancar tanpa hambatan.</p>
               </div>
             </div>
           </FadeIn>
 
-          {/* Card 4: Security (Besar) */}
           <FadeIn direction="up" delay={0.4}>
-            <div className="col-span-1 md:col-span-2 bg-gray-950 rounded-3xl p-8 border border-gray-800 h-full flex flex-col justify-between group overflow-hidden relative">
-              <ShieldCheck className="w-10 h-10 text-green-400 mb-4 relative z-10 group-hover:scale-110 transition-transform" />
+            <div className="col-span-1 md:col-span-2 lg:col-span-2 bg-gray-950 rounded-3xl p-8 xl:p-10 border border-gray-800 h-full min-h-[280px] flex flex-col justify-between group overflow-hidden relative">
+              <ShieldCheck className="w-12 h-12 text-green-400 mb-6 relative z-10 group-hover:scale-110 transition-transform" />
               <div className="relative z-10">
-                <h3 className="text-xl font-bold mb-2">Keamanan Siber & OSINT</h3>
-                <p className="text-gray-400">Audit keamanan presisi, vulnerability scanning, dan pemantauan intelijen sumber terbuka (OSINT) untuk melindungi aset digital perusahaan Anda dari celah kerentanan.</p>
+                <h3 className="text-2xl font-bold mb-3">Keamanan Siber & OSINT</h3>
+                <p className="text-gray-400 text-sm md:text-base leading-relaxed">Audit keamanan presisi, vulnerability scanning, dan pemantauan intelijen sumber terbuka (OSINT) untuk melindungi aset digital perusahaan Anda dari celah kerentanan.</p>
               </div>
-              <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-gray-800/50 rounded-full blur-3xl"></div>
+              <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-gray-800/50 rounded-full blur-3xl"></div>
             </div>
           </FadeIn>
+        </div>
+
+        {/* Tombol Lihat Selengkapnya Layanan */}
+        <FadeIn direction="up" delay={0.5}>
+          <div className="mt-16 flex justify-center">
+            <Link 
+              href="/layanan" 
+              className="group inline-flex items-center justify-center px-8 py-4 bg-gray-800 border border-gray-700 text-white rounded-full font-semibold hover:bg-blue-600 hover:border-blue-500 transition-all duration-300 shadow-lg hover:shadow-blue-600/30"
+            >
+              Lihat Selengkapnya Layanan Kami
+              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </FadeIn>
+      </div>
+    </section>
+  );
+};
+
+// ==========================================
+// SECTION PRICING HARGA
+// ==========================================
+const Pricing = () => {
+  const plans = [
+    {
+      name: "UMKM",
+      price: "Rp 200.000",
+      description: "Solusi digital hemat untuk usaha kecil menengah yang baru merintis.",
+      features: [
+        "Include Domain & Hosting",
+        "Free Maintenance",
+        "Bebas Request Fitur",
+        "Desain Responsif (Mobile Friendly)",
+        "Optimasi SEO Dasar"
+      ],
+      isPopular: false,
+      waText: "Halo Rama Dev, saya tertarik dengan paket pembuatan Website UMKM (Rp 200 Ribu)."
+    },
+    {
+      name: "Company Profile",
+      price: "Rp 1,5 Juta",
+      description: "Tingkatkan kredibilitas perusahaan dengan profil digital profesional.",
+      features: [
+        "Include Domain Premium & Hosting",
+        "Free Maintenance",
+        "Bebas Request Fitur",
+        "Desain Premium & UI/UX Modern",
+        "Integrasi Google Analytics"
+      ],
+      isPopular: true,
+      waText: "Halo Rama Dev, saya tertarik dengan paket pembuatan Website Company Profile (Rp 1,5 Juta)."
+    },
+    {
+      name: "E-Commerce",
+      price: "Rp 6 Juta",
+      description: "Platform toko online lengkap untuk otomatisasi penjualan bisnis Anda.",
+      features: [
+        "Include Domain & Cloud Hosting",
+        "Free Maintenance VIP",
+        "Bebas Request Fitur Toko",
+        "Integrasi Payment Gateway",
+        "Manajemen Inventori & Ongkir Otomatis"
+      ],
+      isPopular: false,
+      waText: "Halo Rama Dev, saya tertarik dengan paket pembuatan Website E-Commerce (Rp 6 Juta)."
+    }
+  ];
+
+  return (
+    <section id="pricing" className="py-24 bg-gray-950 text-white border-t border-gray-900">
+      {/* max-w-6xl ditambahkan di sini agar layout desktop proposional */}
+      <div className="container mx-auto px-4 md:px-8 max-w-6xl">
+        <FadeIn direction="up">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Investasi Terjangkau, Hasil Maksimal</h2>
+            <p className="text-gray-400 text-lg">Semua paket sudah termasuk <strong className="text-white">Domain, Hosting, Maintenance, dan Bebas Request Fitur</strong> tanpa biaya tersembunyi.</p>
+          </div>
+        </FadeIn>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {plans.map((plan, index) => (
+            <FadeIn key={plan.name} direction="up" delay={0.1 * (index + 1)}>
+              <div className={`relative flex flex-col h-full rounded-3xl p-8 transition-transform hover:-translate-y-2 ${
+                plan.isPopular 
+                  ? "bg-gradient-to-b from-blue-900 to-gray-900 border-2 border-blue-500 shadow-2xl shadow-blue-900/50" 
+                  : "bg-gray-900 border border-gray-800"
+              }`}>
+                {plan.isPopular && (
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-500 text-white px-4 py-1 rounded-full text-xs font-bold tracking-wider uppercase">
+                    Paling Diminati
+                  </div>
+                )}
+                
+                <div className="mb-8 mt-2">
+                  <h3 className="text-2xl font-bold text-gray-100 mb-2">{plan.name}</h3>
+                  <p className="text-gray-400 text-sm h-10">{plan.description}</p>
+                </div>
+                
+                <div className="mb-8">
+                  <span className="text-4xl font-extrabold text-white">{plan.price}</span>
+                </div>
+                
+                <ul className="flex-1 space-y-4 mb-8">
+                  {plan.features.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm text-gray-300">
+                      <CheckCircle2 className="w-5 h-5 text-blue-400 shrink-0" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                
+                <a 
+                  href={`https://wa.me/6288227142563?text=${encodeURIComponent(plan.waText)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold transition-colors mt-auto ${
+                    plan.isPopular 
+                      ? "bg-blue-600 hover:bg-blue-700 text-white" 
+                      : "bg-white/10 hover:bg-white/20 text-white"
+                  }`}
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  Checkout Via WhatsApp
+                </a>
+              </div>
+            </FadeIn>
+          ))}
         </div>
       </div>
     </section>
@@ -387,7 +498,7 @@ const Contact = () => {
                     <option value="web-dev">Web Development</option>
                     <option value="digital-marketing">Digital Marketing</option>
                     <option value="maintenance">Maintenance </option>
-                    <option value="security">Keamanan scurity</option>
+                    <option value="security">Keamanan siber</option>
                   </select>
                   {errors.service && <p className="text-red-500 text-xs mt-1">{errors.service.message}</p>}
                 </div>
@@ -413,8 +524,9 @@ export default function LandingPage() {
     <main className="min-h-screen font-sans bg-gray-900">
       <Navbar />
       <HeroVideoBanner />
-      <ClientStats />
+      <WhyChooseUs />
       <Services />
+      <Pricing />
       <NewsSlider />
       <Contact />
       <footer className="bg-gray-950 text-gray-500 py-8 text-center text-sm border-t border-gray-900">

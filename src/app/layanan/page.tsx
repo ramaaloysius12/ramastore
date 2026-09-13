@@ -65,7 +65,7 @@ const Navbar = () => {
       }`}>
         <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
           <Link href="/" className={`text-2xl font-bold tracking-tighter transition-colors ${isScrolled ? "text-gray-900" : "text-white"}`}>
-            Rama <span className="text-blue-500">DevOps</span>
+            Rama <span className="text-blue-500">DEV</span>
           </Link>
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
