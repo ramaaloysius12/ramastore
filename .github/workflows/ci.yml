@@ -1,4 +1,4 @@
-lname: Next.js CI Pipeline
+name: Next.js CI Pipeline
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
     - name: ⚙️ Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '24' 
+        node-version: '20' # Disarankan pakai 20 agar sama persis dengan versi di cPanel Anda
 
     - name: 📦 Install Dependencies
       run: npm install
@@ -32,19 +32,22 @@ jobs:
         DATABASE_URL: ${{ secrets.DATABASE_URL }} 
       run: npm run build
 
-    - name: 📦 Buat ZIP Khusus Folder .next
+    - name: 📦 Buat ZIP Full Project (Semua Folder)
       run: |
         mkdir -p upload_package
-        # Hanya membungkus folder .next agar ukurannya kecil dan spesifik
-        zip -r upload_package/next.zip .next
+        # Membungkus SEMUA file project (termasuk .next utuh dan node_modules) menjadi 1 file ZIP
+        # Pengecualian node_modules dan .next/cache dihapus agar file siap pakai di cPanel
+        zip -r upload_package/deploy.zip . \
+          -x "*.git*" \
+          -x "upload_package*"
 
-    - name: 🚀 Upload ZIP .next ke Folder Rama_store via FTP
+    - name: 🚀 Upload ZIP ke Folder Rama_store via Curl
       run: |
-        # Mengirim file next.zip langsung ke dalam folder Rama_store di cPanel
+        # Mengirim 1 file ZIP langsung ke dalam direktori public_html/Rama_store
         curl --ipv4 --ssl-reqd --insecure --ftp-create-dirs \
           -u "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" \
-          -T upload_package/next.zip \
-          ftp://${{ secrets.FTP_SERVER }}/Rama_store/next.zip
+          -T upload_package/deploy.zip \
+          ftp://${{ secrets.FTP_SERVER }}/public_html/Rama_store/deploy.zip
 
     - name: ✅ Status Sukses
-      run: echo "File next.zip sukses di-upload otomatis! Silakan Extract di File Manager cPanel."
+      run: echo "File deploy.zip sukses di-upload! Silakan Extract di File Manager cPanel."
