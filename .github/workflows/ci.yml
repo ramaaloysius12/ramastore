@@ -32,20 +32,19 @@ jobs:
 
     - name: 🏗️ Build Next.js App
       env:
-        DATABASE_URL: DATABASE_URL=${{ secrets.DATABASE_URL }} npm run build
+        DATABASE_URL: ${{ secrets.DATABASE_URL }} 
+      run: npm run build
 
-    - name: 📦 Buat ZIP Bersih (.next Masuk, node_modules & cache Dibuang)
+    - name: 📦 Buat ZIP Full Project (Aman dari Broken Pipe)
       run: |
         mkdir -p upload_package
-        zip -r upload_package/deploy.zip \
-          package.json \
-          package-lock.json \
-          next.config.mjs \
-          server.js \
-          public \
-          prisma \
-          .next \
-          -x ".next/cache/*"
+        # Tanda titik (.) artinya membungkus SEMUA isi folder
+        # Perintah -x menendang folder raksasa agar tidak ikut terbungkus
+        zip -r upload_package/deploy.zip . \
+          -x "node_modules/*" \
+          -x ".next/cache/*" \
+          -x ".git/*" \
+          -x "upload_package/*"
 
     - name: 🔍 Cek Ukuran ZIP
       run: ls -lh upload_package/deploy.zip
