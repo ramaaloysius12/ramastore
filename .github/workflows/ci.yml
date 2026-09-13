@@ -1,4 +1,4 @@
-Name: Next.js CI Pipeline
+name: Next.js CI Pipeline
 
 on:
   push:
