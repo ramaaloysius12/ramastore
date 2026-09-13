@@ -1,7 +1,11 @@
-import Link from "next/link";
+limport Link from "next/link";
 
-export default function PublicNewsDetailPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+// 1. Tambahkan 'async' dan ubah tipe params menjadi 'Promise'
+export default async function PublicNewsDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  
+  // 2. Tambahkan 'await' untuk membuka isi dari params
+  const resolvedParams = await params;
+  const { id } = resolvedParams;
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6">
