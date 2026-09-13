@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "npx prisma generate --schema=/home/cdipczwo/public_html/Rama_store/prisma/schema.prisma && next build --webpack",
+    "build": "npx prisma generate --schema=./prisma/schema.prisma && next build --webpack",
     "start": "next start",
     "lint": "next lint"
   },
