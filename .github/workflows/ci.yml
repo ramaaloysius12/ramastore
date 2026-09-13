@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -18,6 +19,8 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
+      env:
+        ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
 
     - name: 📦 Install Dependencies
       run: npm install
@@ -43,6 +46,7 @@ jobs:
           **/.git*
           **/.git*/**
           **/node_modules/**
+          **/.next/cache/**
           .env
           server.js
           next.config.mjs
