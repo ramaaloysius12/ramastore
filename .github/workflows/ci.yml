@@ -51,4 +51,4 @@ jobs:
 
     - name: ✅ Status Sukses
       run: echo "File deploy.zip sukses di-upload! Silakan Extract di File Manager cPanel."
- Ubah dulu code .yml nya
+ 
