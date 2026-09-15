@@ -24,6 +24,7 @@ jobs:
 
     - name: 📦 Install Dependencies
       run: npm install
+           npm install lightningcss --no-save
 
     - name: 🗄️ Generate Prisma Client
       env:
