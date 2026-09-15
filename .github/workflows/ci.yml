@@ -25,7 +25,8 @@ jobs:
     - name: 📦 Install Dependencies
       run: |
         npm install
-        npm install lightningcss --no-save
+        npm install @tailwindcss/oxide-linux-x64-gnu lightningcss-linux-x64-gnu --no-save
+        
 
     - name: 🗄️ Generate Prisma Client
       env:
