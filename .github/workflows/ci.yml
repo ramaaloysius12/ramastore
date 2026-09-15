@@ -23,7 +23,9 @@ jobs:
         ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
 
     - name: 📦 Install Dependencies
-      run: npm install --os=linux --cpu=x64
+      run: |
+        npm install
+        npm install lightningcss --no-save
 
     - name: 🗄️ Generate Prisma Client
       env:
