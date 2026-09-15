@@ -23,8 +23,7 @@ jobs:
         ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
 
     - name: 📦 Install Dependencies
-      run: rm -rf package-lock.json node_modules
-           npm install
+      run: npm ci
            
 
     - name: 🗄️ Generate Prisma Client
